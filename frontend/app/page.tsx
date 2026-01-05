@@ -1,65 +1,60 @@
-import Image from "next/image";
-
 export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+  return <>
+    <section className="hero-banner">
+      <img src="/img/background/hopfen-fields.jpg" alt="Beautiful hops on a dark background" className="hero-banner__image" />
+      <div className="hero-banner__overlay"></div>
+    </section>
+
+    <div className="container main-content-grid">
+      <aside className="sidebar filter-menu">
+        <div className="sidebar__section">
+          <h3 className="section-title">Keywords</h3>
+          <div className="keywords-list"></div>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="sidebar__section">
+          <h3 className="section-title">Product Type</h3>
+          <div className="checkbox-group">
+            <label className="checkbox-container">Hops
+              <input type="checkbox" data-keyword="Hops" />
+              <span className="checkmark"></span>
+            </label>
+            <label className="checkbox-container">Malts
+              <input type="checkbox" data-keyword="Malts" />
+              <span className="checkmark"></span>
+            </label>
+            <label className="checkbox-container">Yeast
+              <input type="checkbox" data-keyword="Yeast" />
+              <span className="checkmark"></span>
+            </label>
+            <label className="checkbox-container">Adjuncts
+              <input type="checkbox" data-keyword="Adjuncts" />
+              <span className="checkmark"></span>
+            </label>
+          </div>
         </div>
-      </main>
+      </aside>
+
+      <section className="products-area product-grid-section">
+        <div className="search-sort-bar">
+          <div className="search-input-wrapper">
+            <input type="text" placeholder="Search" className="search-input" />
+            <button className="search-button" aria-label="Search">
+              <i className="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+          <div className="sort-options">
+            <button className="sort-button active-sort">
+              <span>New</span>
+            </button>
+            <button className="sort-button">Price ascending</button>
+            <button className="sort-button">Price descending</button>
+            <button className="sort-button">Rating</button>
+          </div>
+        </div>
+
+        <div className="product-grid"></div>
+      </section>
     </div>
-  );
+  </>;
 }

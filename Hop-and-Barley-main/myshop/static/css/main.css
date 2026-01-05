@@ -50,6 +50,20 @@ p, h1, h2, h3, h4, h5, h6 {
 }
 
 /* Header styles */
+
+/* BEM */
+/* Yandex */
+/* Block Element Modifier */ 
+
+/**
+ * `block__element-modifier`
+ *
+ * block = button | product | header
+ * element = link ==> header__link
+ * modifier = hovered | disabled | active | passive | agressive
+ * Ссылка с модификатором "отключен" имеет два класса: header__link header__link-disabled
+ */
+
 header {
     width: 100%;
     height: 100px;
