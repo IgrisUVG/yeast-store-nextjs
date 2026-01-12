@@ -5,13 +5,6 @@ export enum ProductType {
   ADJUNCT = "adjunct",
 }
 
-export const ProductTypeName:readonly [ProductType, string][] = Object.freeze([
-  [ProductType.HOP, "Hops"],
-  [ProductType.MALT, "Malts"],
-  [ProductType.YEAST, "Yeasts"],
-  [ProductType.ADJUNCT, "Adjunct"],
-]);
-
 export interface Product {
   id: string,
   image:  string,

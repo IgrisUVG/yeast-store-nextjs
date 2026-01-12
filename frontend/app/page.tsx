@@ -1,4 +1,4 @@
-import { Product, ProductTypeName } from "@/types/product";
+import { Product, ProductType } from "@/types/product";
 import Link from "next/link";
 import CheckboxFilter from "./components/filters/checkbox/checkbox";
 
@@ -7,6 +7,13 @@ export enum SearchParam {
   SEARCH = "search",
   SORT = "sort",
 }
+
+export const ProductTypeName:readonly [ProductType, string][] = Object.freeze([
+  [ProductType.HOP, "Hops"],
+  [ProductType.MALT, "Malts"],
+  [ProductType.YEAST, "Yeasts"],
+  [ProductType.ADJUNCT, "Adjunct"],
+]);
 
 export default async function Home({ searchParams }: PageProps<"/">) {
   const searchValues = await searchParams;
