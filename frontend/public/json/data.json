@@ -7,7 +7,9 @@
       "value": 5.99,
       "currency": "USD"
     },
-    "tagline": "Ideal for IPAs and Pale Ales"
+    "tagline": "Ideal for IPAs and Pale Ales",
+    "type": "hop",
+    "rating": 5
   },
   {
     "id": "03",
@@ -17,7 +19,9 @@
       "value": 3.25,
       "currency": "USD"
     },
-    "tagline": "Clean fermenting American ale yeast"
+    "tagline": "Clean fermenting American ale yeast",
+    "type": "yeast",
+    "rating": 7.5
   },
   {
     "id": "04",
@@ -27,7 +31,9 @@
       "value": 7.49,
       "currency": "USD"
     },
-    "tagline": "Great for dry hopping"
+    "tagline": "Great for dry hopping",
+    "type": "hop",
+    "rating": 10
   },
   {
     "id": "05",
@@ -37,7 +43,9 @@
       "value": 3.00,
       "currency": "USD"
     },
-    "tagline": "Head retention in darker beers"
+    "tagline": "Head retention in darker beers",
+    "type": "malt",
+    "rating": 8
   },
   {
     "id": "06",
@@ -47,7 +55,9 @@
       "value": 4.75,
       "currency": "USD"
     },
-    "tagline": "Essential for Lagers"
+    "tagline": "Essential for Lagers",
+    "type": "hop",
+    "rating": 1
   },
   {
     "id": "07",
@@ -57,7 +67,9 @@
       "value": 2.20,
       "currency": "USD"
     },
-    "tagline": "Foundation for lagers and pilsners"
+    "tagline": "Foundation for lagers and pilsners",
+    "type": "malt",
+    "rating": 2
   },
   {
     "id": "08",
@@ -67,7 +79,9 @@
       "value": 8.99,
       "currency": "USD"
     },
-    "tagline": "American ales with citrus notes"
+    "tagline": "American ales with citrus notes",
+    "type": "yeast",
+    "rating": 8
   },
   {
     "id": "09",
@@ -77,7 +91,9 @@
       "value": 6.20,
       "currency": "USD"
     },
-    "tagline": "Often called \"Super Cascade\""
+    "tagline": "Often called \"Super Cascade\"",
+    "type": "hop",
+    "rating": 3
   },
   {
     "id": "10",
@@ -87,7 +103,9 @@
       "value": 9.50,
       "currency": "USD"
     },
-    "tagline": "Ideal for IPAs and Pale Ales"
+    "tagline": "Ideal for IPAs and Pale Ales",
+    "type": "hop",
+    "rating": 3
   },
   {
     "id": "11",
@@ -97,7 +115,9 @@
       "value": 60,
       "currency": "USD"
     },
-    "tagline": "West Coast IPA"
+    "tagline": "West Coast IPA",
+    "type": "adjunct",
+    "rating": 5
   },
   {
     "id": "12",
@@ -107,6 +127,8 @@
       "value": 1.80,
       "currency": "USD"
     },
-    "tagline": "Belgian Witbier"
+    "tagline": "Belgian Witbier",
+    "type": "adjunct",
+    "rating": 4
   }
 ]
