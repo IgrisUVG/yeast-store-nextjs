@@ -2,6 +2,7 @@ import { Product, ProductType } from "@/types/product";
 import Link from "next/link";
 import CheckboxFilter from "./components/filters/checkbox/checkbox";
 import SortButton from "./components/filters/sort/sort";
+import SearchInput from "./components/filters/search/search";
 
 export enum SearchParam {
   PRODUCT_TYPE = "product-type[]",
@@ -44,11 +45,25 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
   const filteredProducts = products
     .filter(function (p) {
-      if (SearchParam.PRODUCT_TYPE in searchValues) {
-        return searchValues[SearchParam.PRODUCT_TYPE]!.includes(p.type);
+      if (!(SearchParam.SEARCH in searchValues)) {
+        return true;
       }
 
-      return true;
+      const soughtForValue = (searchValues[SearchParam.SEARCH] as string);
+
+      return (
+        p.name.toLowerCase().includes(soughtForValue.toLowerCase()) ||
+        p.tagline.toLowerCase().includes(soughtForValue.toLowerCase()) ||
+        p.price.value.toString().includes(soughtForValue.toLowerCase()) ||
+        p.rating.toString().includes(soughtForValue.toLowerCase())
+      );
+    })
+    .filter(function (p) {
+      if (!(SearchParam.PRODUCT_TYPE in searchValues)) {
+        return true;
+      }
+
+      return searchValues[SearchParam.PRODUCT_TYPE]!.includes(p.type);
     })
     .sort(function (a, b) {
       if (sortDirection === DEFAULT_SORT_DIRECTION) {
@@ -93,12 +108,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
 
       <section className="products-area product-grid-section">
         <div className="search-sort-bar">
-          <div className="search-input-wrapper">
-            <input type="text" placeholder="Search" className="search-input" />
-            <button className="search-button" aria-label="Search">
-              <i className="fa-solid fa-magnifying-glass"></i>
-            </button>
-          </div>
+          <SearchInput name={SearchParam.SEARCH} />
           <div className="sort-options">{
             SortDirectionName.map(([k, v]) => <SortButton
               key={`sort-direction-control-${k}`}
