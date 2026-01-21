@@ -85,7 +85,7 @@ export default async function Home({ searchParams }: PageProps<"/">) {
       return 0;
     });
 
-  return <>
+  return <main>
     <section className="hero-banner">
       <img src="/img/background/hopfen-fields.jpg" alt="Beautiful hops on a dark background" className="hero-banner__image" />
       <div className="hero-banner__overlay"></div>
@@ -143,5 +143,5 @@ export default async function Home({ searchParams }: PageProps<"/">) {
         </div>
       </section>
     </div>
-  </>;
+  </main>;
 }

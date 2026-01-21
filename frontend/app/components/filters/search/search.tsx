@@ -1,22 +1,15 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useSearchParamsRouter from "@/hooks/use-search-params-router";
 import { FormEvent } from "react";
 
 interface SearchInputProps {
   name: string,
 }
 
-// Product page
-// Filters
-// 1. immediate response
-// 2. hook
-
 export default function SearchInput({ name }: SearchInputProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const searchValue = searchParams.get(name);
+  const router = useSearchParamsRouter();
+  const searchValue = router.get(name);
 
   function handleSubmit(evt: FormEvent<HTMLFormElement>) {
     evt.preventDefault();
@@ -26,18 +19,11 @@ export default function SearchInput({ name }: SearchInputProps) {
 
     const shouldBeAdded = newSearchValue !== null && newSearchValue.trim() !== "";
 
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-
     if (shouldBeAdded) {
-      newSearchParams.set(name, newSearchValue);
+      router.set(name, newSearchValue);
     } else {
-      newSearchParams.delete(name);
+      router.delete(name);
     }
-
-    const newURL = `${pathname}${newSearchParams.size === 0 ? `` : `?${newSearchParams.toString()}`}`;
-    router.push(newURL, {
-      scroll: false,
-    });
   }
 
   return <form className="search-input-wrapper" method="GET" onSubmit={handleSubmit}>

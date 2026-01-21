@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useSearchParamsRouter from "@/hooks/use-search-params-router";
 
 interface SortButtonProps {
   label: string,
@@ -15,10 +15,8 @@ export default function SortButton({
   value,
   isDefault = false,
 }: SortButtonProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const searchValue = searchParams.get(name);
+  const router = useSearchParamsRouter();
+  const searchValue = router.get(name);
 
   const isActive = (
     searchValue === value ||
@@ -26,18 +24,11 @@ export default function SortButton({
   );
 
   function handleClick() {
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-
     if (isDefault) {
-      newSearchParams.delete(name);
+      router.delete(name);
     } else {
-      newSearchParams.set(name, value);
+      router.set(name, value);
     }
-
-    const newURL = `${pathname}${newSearchParams.size === 0 ? `` : `?${newSearchParams.toString()}`}`;
-    router.push(newURL, {
-      scroll: false,
-    });
   }
 
   return <button

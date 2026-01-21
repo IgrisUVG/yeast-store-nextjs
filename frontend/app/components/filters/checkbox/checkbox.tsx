@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import useSearchParamsRouter from "@/hooks/use-search-params-router";
 import { ChangeEvent } from "react";
 
 interface CheckboxFilterProps {
@@ -14,27 +14,18 @@ export default function CheckboxFilter({
   value,
   label,
 }: CheckboxFilterProps) {
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const searchValue = searchParams.getAll(name);
+  const router = useSearchParamsRouter();
+  const searchValue = router.getAll(name);
 
   function handleChange(evt: ChangeEvent<HTMLInputElement>) {
     const newParamValue = evt.target.value;
     const shouldBeAdded = evt.target.checked;
 
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-
     if (shouldBeAdded) {
-      newSearchParams.append(name, newParamValue);
+      router.append(name, newParamValue);
     } else {
-      newSearchParams.delete(name, newParamValue);
+      router.delete(name, newParamValue);
     }
-
-    const newURL = `${pathname}${newSearchParams.size === 0 ? `` : `?${newSearchParams.toString()}`}`;
-    router.push(newURL, {
-      scroll: false,
-    });
   }
 
   return <label className="checkbox-container">
