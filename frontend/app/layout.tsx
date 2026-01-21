@@ -53,11 +53,7 @@ export default function RootLayout({
             </div>
           </div>
         </header>
-
-        <main>
-          {children}
-        </main>
-
+        {children}
         <footer>
           <img src="/img/background/image-footer.svg" alt="Hop & Barley Hops Logo" className="footer__hops-logo" />
           <nav className="footer__nav">
