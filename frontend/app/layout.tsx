@@ -1,17 +1,20 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
+import isSignedIn from "@/actions/user/is-signed-in";
 
 export const metadata: Metadata = {
   title: "Hop & Barley",
   description: "Создать интернет-магазин с каталогом товаров, корзиной, формой заказа, авторизацией и API для управления товарами",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isUserSignedIn = await isSignedIn();
+
   return (
     <html lang="en">
       <head>
@@ -38,22 +41,26 @@ export default function RootLayout({
               </ul>
             </nav>
 
-            <div className="header__auth-buttons" id="auth-guest">
-              <a href="login.html" className="button button--secondary">Sign in</a>
-              <a href="register.html" className="button button--primary">Register</a>
-            </div>
-
-            <div className="header__user-actions" id="auth-user">
-              <a href="account.html" className="user-icon" aria-label="My Account">
-                <img src="/img/icons/User_alt.svg" alt="User Account" />
-              </a>
-              <a href="cart.html" className="cart-icon" aria-label="Shopping Cart">
-                <img src="/img/icons/Shopping_bag.svg" alt="Shopping Cart" />
-              </a>
-            </div>
+            {
+              isUserSignedIn
+                ? <div className="header__user-actions" id="auth-user">
+                  <a href="account.html" className="user-icon" aria-label="My Account">
+                    <img src="/img/icons/User_alt.svg" alt="User Account" />
+                  </a>
+                  <a href="cart.html" className="cart-icon" aria-label="Shopping Cart">
+                    <img src="/img/icons/Shopping_bag.svg" alt="Shopping Cart" />
+                  </a>
+                </div>
+                : <div className="header__auth-buttons" id="auth-guest">
+                  <Link href="/signin" className="button button--secondary">Sign in</Link>
+                  <Link href="/signup" className="button button--primary">Register</Link>
+                </div>
+            }
           </div>
         </header>
+
         {children}
+
         <footer>
           <img src="/img/background/image-footer.svg" alt="Hop & Barley Hops Logo" className="footer__hops-logo" />
           <nav className="footer__nav">

@@ -2,6 +2,11 @@ import { Product } from "@/types/product";
 import { redirect, RedirectType } from "next/navigation";
 import Accordion from "./components/accordion/accordion";
 
+async function addToCart() {
+  "use server";
+  redirect("/signin", RedirectType.replace);
+}
+
 export default async function Page({ params }: PageProps<"/products/[id]">) {
   const pageParams = await params;
   const productID = pageParams.id;
@@ -35,8 +40,8 @@ export default async function Page({ params }: PageProps<"/products/[id]">) {
             <p>The flavor of this malt is characterized by distinct notes of caramel, toffee, and light hints of toasted bread. It adds a pleasant sweetness to the beer that beautifully balances hop bitterness and also contributes to improved head retention.</p>
             <p>Caramel Malt 60L is ideal for a wide range of styles, from Pale Ales and Amber Ales to Porters and Stouts, adding complexity and depth.</p>
           </div>
-          <div className="cart-controls">
-            <button className="button button--primary add-to-cart-button" id="add-to-cart-btn">
+          <form className="cart-controls" action={addToCart}>
+            <button type="submit" className="button button--primary add-to-cart-button" id="add-to-cart-btn">
               <i className="fa-solid fa-cart-shopping"></i>
               <span>Add to Cart</span>
             </button>
@@ -45,7 +50,7 @@ export default async function Page({ params }: PageProps<"/products/[id]">) {
               <span className="quantity-value">1 in cart</span>
               <button className="quantity-btn" data-action="increase" aria-label="Increase quantity"><i className="fa-solid fa-plus"></i></button>
             </div>
-          </div>
+          </form>
         </div>
       </section>
 
