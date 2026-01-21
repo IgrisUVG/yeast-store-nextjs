@@ -1,5 +1,6 @@
 import { Product } from "@/types/product";
 import { redirect, RedirectType } from "next/navigation";
+import Accordion from "./components/accordion/accordion";
 
 export default async function Page({ params }: PageProps<"/products/[id]">) {
   const pageParams = await params;
@@ -48,26 +49,18 @@ export default async function Page({ params }: PageProps<"/products/[id]">) {
         </div>
       </section>
 
-      <section className="accordion-section">
-        <div className="accordion-item">
-          <div className="accordion-title">
-            <h3>Technical Specifications</h3>
-            <i className="fa-solid fa-chevron-down accordion-icon"></i>
-          </div>
-          <div className="accordion-content">
-            <ul>
-              <li><strong>Origin:</strong> USA / Belgium</li>
-              <li><strong>Type:</strong> Crystal/Caramel Malt</li>
-              <li><strong>Color (°L):</strong> 60 °L</li>
-              <li><strong>Moisture:</strong> 5.0% max</li>
-              <li><strong>Extract FG, Dry:</strong> 75%</li>
-              <li><strong>Flavor Profile:</strong> Sweet, caramel, toffee, hints of toasted bread</li>
-              <li><strong>Usage:</strong> Typically 3-15% of the grist</li>
-              <li><strong>Recommended Beer Styles:</strong> Pale Ale, Amber Ale, IPA, Brown Ale, Porter, Stout, Scotch Ale</li>
-            </ul>
-          </div>
-        </div>
-      </section>
+      <Accordion trigger={<h3>Technical Specifications</h3>}>
+        <ul>
+          <li><strong>Origin:</strong> USA / Belgium</li>
+          <li><strong>Type:</strong> Crystal/Caramel Malt</li>
+          <li><strong>Color (°L):</strong> 60 °L</li>
+          <li><strong>Moisture:</strong> 5.0% max</li>
+          <li><strong>Extract FG, Dry:</strong> 75%</li>
+          <li><strong>Flavor Profile:</strong> Sweet, caramel, toffee, hints of toasted bread</li>
+          <li><strong>Usage:</strong> Typically 3-15% of the grist</li>
+          <li><strong>Recommended Beer Styles:</strong> Pale Ale, Amber Ale, IPA, Brown Ale, Porter, Stout, Scotch Ale</li>
+        </ul>
+      </Accordion>
 
       <section className="reviews-section">
         <h2 className="reviews-title">Latest reviews</h2>
