@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Hop & Barley",
@@ -23,14 +24,14 @@ export default function RootLayout({
       <body>
         <header>
           <div className="header-container">
-            <a href="home.html" className="header__logo">
+            <Link href="/" className="header__logo">
               <img src="/img/logo.svg" alt="Hop & Barley Logo" />
               <p className="logo-text">Hop & Barley</p>
-            </a>
+            </Link>
             <nav className="header__nav">
               <ul>
-                <li><a href="home.html">Products</a></li>
-                <li><a href="guides-recipes.html">Guides & Recipes</a></li>
+                <li><Link href="/">Products</Link></li>
+                <li><a href="#">Guides & Recipes</a></li>
                 <li><a href="#">Community</a></li>
                 <li><a href="#">Resources</a></li>
                 <li><a href="#">Contact</a></li>
