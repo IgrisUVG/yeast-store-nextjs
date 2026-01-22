@@ -15,6 +15,7 @@ export default async function signIn(formData: FormData) {
 
   const cookieStore = await cookies();
   cookieStore.set(config.AUTH_COOKIE_NAME, "true");
-  // TODO: Redirect to a specific address
-  redirect("/", RedirectType.replace);
+
+  const returnTo = formData.get("return-to") as string | null;
+  redirect(returnTo === null || returnTo.trim() === "" ? "/" : returnTo, RedirectType.replace);
 }

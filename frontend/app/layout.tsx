@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 import isSignedIn from "@/actions/user/is-signed-in";
+import SignInButton from "./components/header/sign-in-button/sign-in-button";
 
 export const metadata: Metadata = {
   title: "Hop & Barley",
@@ -52,7 +53,7 @@ export default async function RootLayout({
                   </a>
                 </div>
                 : <div className="header__auth-buttons" id="auth-guest">
-                  <Link href="/signin" className="button button--secondary">Sign in</Link>
+                  <SignInButton />
                   <Link href="/signup" className="button button--primary">Register</Link>
                 </div>
             }

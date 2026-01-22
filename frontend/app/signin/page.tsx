@@ -2,12 +2,19 @@ import isSignedIn from "@/actions/user/is-signed-in";
 import signIn from "@/actions/user/sign-in";
 import { redirect, RedirectType } from "next/navigation";
 
-export default async function Page() {
+//http://localhost:3000/signin?returnTo=/?sort=price.asc&product-type%5B%5D=malt&product-type%5B%5D=yeast&search=Mal
+
+export default async function Page({ searchParams }: PageProps<"/signin">) {
   const userIsSignedIn = await isSignedIn();
 
   if (userIsSignedIn) {
     redirect("/", RedirectType.replace);
   }
+
+  const search = await searchParams;
+  const returnTo = search.returnTo ?? "/";
+
+  console.log("R", returnTo);
 
   return <main className="auth-page-wrapper">
     <div className="auth-background">
@@ -20,6 +27,8 @@ export default async function Page() {
         </div>
 
         <form className="auth-form" id="register-form" action={signIn}>
+          <input type="hidden" name="return-to" value={returnTo} />
+
           <div className="InputField">
             <label htmlFor="email">Email</label>
             <input type="email" id="email" name="email" className="Input" placeholder="Value" required />
