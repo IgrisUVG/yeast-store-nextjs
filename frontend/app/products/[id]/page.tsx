@@ -1,6 +1,7 @@
 import { Product } from "@/types/product";
 import { redirect, RedirectType } from "next/navigation";
 import Accordion from "./components/accordion/accordion";
+import isSignedIn from "@/actions/user/is-signed-in";
 
 async function addToCart(formData: FormData) {
   "use server";
@@ -8,11 +9,18 @@ async function addToCart(formData: FormData) {
   const productID = formData.get("add-product") as string;
 
   if (productID === null) {
-    // TODO: Add an error
     return null;
   }
 
-  redirect(`/signin?returnTo=/products/${productID}`, RedirectType.replace);
+  const isUserSignedIn = await isSignedIn();
+
+  if (!isUserSignedIn) {
+    // TODO: Add product to cart after user is logged in
+    // Main idea how to do it: add secret GET-parameter
+    redirect(`/signin?returnTo=/products/${productID}`, RedirectType.replace);
+  }
+
+  console.log("ADDED");
 }
 
 export default async function Page({ params }: PageProps<"/products/[id]">) {
