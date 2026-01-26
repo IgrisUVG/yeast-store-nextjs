@@ -1,10 +1,26 @@
 import { Product } from "@/types/product";
 import { redirect, RedirectType } from "next/navigation";
 import Accordion from "./components/accordion/accordion";
+import isSignedIn from "@/actions/user/is-signed-in";
 
-async function addToCart() {
+async function addToCart(formData: FormData) {
   "use server";
-  redirect("/signin", RedirectType.replace);
+
+  const productID = formData.get("add-product") as string;
+
+  if (productID === null) {
+    return;
+  }
+
+  const isUserSignedIn = await isSignedIn();
+
+  if (!isUserSignedIn) {
+    // TODO: Add product to cart after user is logged in
+    // Main idea how to do it: add secret GET-parameter
+    redirect(`/signin?returnTo=/products/${productID}`, RedirectType.replace);
+  }
+
+  console.log("ADDED");
 }
 
 export default async function Page({ params }: PageProps<"/products/[id]">) {
@@ -41,7 +57,7 @@ export default async function Page({ params }: PageProps<"/products/[id]">) {
             <p>Caramel Malt 60L is ideal for a wide range of styles, from Pale Ales and Amber Ales to Porters and Stouts, adding complexity and depth.</p>
           </div>
           <form className="cart-controls" action={addToCart}>
-            <button type="submit" className="button button--primary add-to-cart-button" id="add-to-cart-btn">
+            <button type="submit" name="add-product" value={productID} className="button button--primary add-to-cart-button" id="add-to-cart-btn">
               <i className="fa-solid fa-cart-shopping"></i>
               <span>Add to Cart</span>
             </button>

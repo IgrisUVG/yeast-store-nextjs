@@ -1,33 +1,16 @@
 import isSignedIn from "@/actions/user/is-signed-in";
-import config from "@/types/config";
-import { cookies } from "next/headers";
+import signIn from "@/actions/user/sign-in";
 import { redirect, RedirectType } from "next/navigation";
 
-async function signIn(formData: FormData) {
-  "use server";
-
-  const cookieStore = await cookies();
-
-  const email = formData.get("email")! as string;
-  const password = formData.get("password")! as string;
-
-  if (email !== "admin@gmail.com" && password !== "123") {
-    console.log("Error");
-    return;
-  }
-
-  console.log("Success");
-  cookieStore.set(config.AUTH_COOKIE_NAME, "true");
-  // TODO: Redirect to a specific address
-  redirect("/", RedirectType.replace);
-}
-
-export default async function Page() {
+export default async function Page({ searchParams }: PageProps<"/signin">) {
   const userIsSignedIn = await isSignedIn();
 
   if (userIsSignedIn) {
     redirect("/", RedirectType.replace);
   }
+
+  const search = await searchParams;
+  const returnTo = search.returnTo ?? "/";
 
   return <main className="auth-page-wrapper">
     <div className="auth-background">
@@ -40,6 +23,8 @@ export default async function Page() {
         </div>
 
         <form className="auth-form" id="register-form" action={signIn}>
+          <input type="hidden" name="return-to" value={returnTo} />
+
           <div className="InputField">
             <label htmlFor="email">Email</label>
             <input type="email" id="email" name="email" className="Input" placeholder="Value" required />
