@@ -13,9 +13,10 @@
   --background: #fff;
   --dark-green: #31572c;
   --green: #02542d;
+  --dark-red: #d68181;
+  --red: #f79393;
   --background-green: #cff7d3;
   --background-header: #fff;
-
   --font-family: "Inter", sans-serif;
 }
 
@@ -720,6 +721,19 @@ footer {
 
 .auth-container--login .auth-form {
   gap: 24px;
+}
+
+.ErrorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ErrorContainer p {
+  padding: 12px 18px;
+  background: var(--red);
+  border: 1px solid var(--dark-red);
+  border-radius: 8px;
 }
 
 /* Forgot password  */

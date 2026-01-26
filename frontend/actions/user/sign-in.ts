@@ -4,13 +4,17 @@ import config from "@/types/config";
 import { cookies } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
 
-export default async function signIn(formData: FormData) {
+export default async function signIn(currentErrors: string[], formData: FormData) {
   const email = formData.get("email")! as string;
   const password = formData.get("password")! as string;
 
+  await new Promise((res) => setTimeout(res,3000))
+
   if (email !== "admin@gmail.com" && password !== "123") {
-    console.log("Error");
-    return;
+    return [
+      ...currentErrors,
+      "Incorrect username or password.",
+    ];
   }
 
   const cookieStore = await cookies();

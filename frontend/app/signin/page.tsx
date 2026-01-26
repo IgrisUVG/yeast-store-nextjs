@@ -1,7 +1,6 @@
 import isSignedIn from "@/actions/user/is-signed-in";
-import signIn from "@/actions/user/sign-in";
 import { redirect, RedirectType } from "next/navigation";
-import PendingButton from "@/components/pending-button/pending-button";
+import SignInForm from "./components/sign-in-form/sign-in-form";
 
 export default async function Page({ searchParams }: PageProps<"/signin">) {
   const userIsSignedIn = await isSignedIn();
@@ -23,32 +22,9 @@ export default async function Page({ searchParams }: PageProps<"/signin">) {
           <h1 className="auth-title">Sign in</h1>
         </div>
 
-        <form className="auth-form" id="register-form" action={signIn}>
+        <SignInForm>
           <input type="hidden" name="return-to" value={returnTo} />
-
-          <div className="InputField">
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" name="email" className="Input" placeholder="Value" required />
-          </div>
-          <div className="InputField">
-            <label htmlFor="password">Password</label>
-            <input type="password" id="password" name="password" className="Input" placeholder="Value" required />
-          </div>
-
-          <div className="CheckboxField">
-            <label className="checkbox-container">Remember me
-              <input type="checkbox" defaultChecked />
-              <span className="checkmark"></span>
-            </label>
-          </div>
-
-          <div className="ButtonGroup">
-            <PendingButton
-              className="button button--primary"
-              pendingText={<>Signing in&hellip;</>}
-            >Sign in</PendingButton>
-          </div>
-        </form>
+        </SignInForm>
 
         <p className="auth-switch">Don&rsquo;t have an account? <a href="/signup">Register</a></p>
       </div>
