@@ -139,8 +139,12 @@ header {
   color: var(--black-main);
 }
 
-.button--secondary:hover {
+.button--secondary:hover:not(:disabled) {
   background-color: var(--slate-200);
+}
+
+.button--secondary:disabled {
+  opacity: 0.3;
 }
 
 .button--primary {
@@ -149,10 +153,16 @@ header {
   color: var(--white-text);
 }
 
-.button--primary:hover {
+.button--primary:hover:not(:disabled) {
   background-color: var(--dark-green);
   border-color: var(--dark-green);
 }
+
+.button--primary:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
+
 
 /* Hero Banner */
 .hero-banner {

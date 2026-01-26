@@ -1,6 +1,7 @@
 import isSignedIn from "@/actions/user/is-signed-in";
 import signIn from "@/actions/user/sign-in";
 import { redirect, RedirectType } from "next/navigation";
+import PendingButton from "@/components/pending-button/pending-button";
 
 export default async function Page({ searchParams }: PageProps<"/signin">) {
   const userIsSignedIn = await isSignedIn();
@@ -42,7 +43,10 @@ export default async function Page({ searchParams }: PageProps<"/signin">) {
           </div>
 
           <div className="ButtonGroup">
-            <button type="submit" className="button button--primary">Sign in</button>
+            <PendingButton
+              className="button button--primary"
+              pendingText={<>Signing in&hellip;</>}
+            >Sign in</PendingButton>
           </div>
         </form>
 
