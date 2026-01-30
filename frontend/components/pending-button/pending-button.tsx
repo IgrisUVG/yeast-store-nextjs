@@ -5,16 +5,19 @@ import { useFormStatus } from "react-dom";
 
 interface SignInButtonProps extends PropsWithChildren, HTMLAttributes<HTMLButtonElement> {
   disabled?: boolean,
-  type?: "submit" | "reset" | "button",
+  name?: string,
   pendingText?: string | ReactNode,
+  type?: "submit" | "reset" | "button",
+  value?: string,
 };
 
 export default function SignInButton({
   children,
   className = "",
   disabled = false,
-  type = "submit",
   pendingText,
+  type = "submit",
+  ...rest
 }: SignInButtonProps) {
   const {pending} = useFormStatus();
 
@@ -22,5 +25,6 @@ export default function SignInButton({
     disabled={disabled || pending}
     type={type}
     className={`${className}`}
+    {...rest}
   >{pending && pendingText !== undefined ? pendingText : children}</button>;
 }

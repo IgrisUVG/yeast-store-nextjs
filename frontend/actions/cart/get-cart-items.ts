@@ -13,5 +13,11 @@ export default async function getCartItems() {
   }
 
   const data = await cartItemsResponse.json() as CartItem[];
-  return data;
+  return data.map((it) => ({
+    ...it,
+    // NB! As cart data is static, multiplying by a random number
+    // results in imitation of changing amount of products in cart
+    // (even tho completely random)
+    amount: Math.round(it.amount * (Math.random() + 1)),
+  })) as CartItem[];
 }

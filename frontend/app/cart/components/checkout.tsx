@@ -1,5 +1,6 @@
 "use client";
 
+import PendingButton from "@/components/pending-button/pending-button";
 import { CartItem } from "@/types/cart";
 import { Product } from "@/types/product";
 import Link from "next/link";
@@ -63,13 +64,30 @@ function CartForm({
               </div>
               <div className="cart-item__actions">
                 <div className="cart-item__quantity-selector">
-                  <button className="quantity-btn-cart" data-action="decrease"><i className="fa-solid fa-minus"></i></button>
+                  <PendingButton
+                    disabled={it.amount === 1}
+                    type="submit"
+                    className="quantity-btn-cart"
+                    data-action="decrease"
+                    name="descrease-amount"
+                    value={it.id}
+                  ><i className="fa-solid fa-minus"></i></PendingButton>
                   <span className="quantity-value-cart">{it.amount}</span>
-                  <button className="quantity-btn-cart" data-action="increase"><i className="fa-solid fa-plus"></i></button>
+                  <PendingButton
+                    className="quantity-btn-cart"
+                    data-action="increase"
+                    name="increase-amount"
+                    value={it.id}
+                  ><i className="fa-solid fa-plus"></i></PendingButton>
                 </div>
-                <button className="button--remove" data-action="remove">
+                <PendingButton
+                  className="button--remove"
+                  data-action="remove"
+                  name="remove-from-cart"
+                  value={it.id}
+                >
                   Remove <i className="fa-solid fa-xmark"></i>
-                </button>
+                </PendingButton>
               </div>
             </div>
           </div>)}
@@ -100,11 +118,19 @@ function CartForm({
 }
 
 function CheckoutForm() {
+  const {
+    cartItems,
+    products
+  } = useContext(ProductsContext);
+
   return <main className="checkout-page-wrapper">
+    {cartItems.map((ci) => <input key={`product-id-${ci.id}`} type="hidden" name="product-ids[]" value={ci.id} />)}
+    {cartItems.map((ci) => <input key={`product-amount-${ci.id}`} type="hidden" name="product-amount[]" value={ci.amount} />)}
+
     <div className="checkout-container">
       <h1 className="checkout-title">Order Details</h1>
 
-      <form id="checkout-form">
+      <div id="checkout-form">
         <section className="checkout-section">
           <h2 className="checkout-section__title">Shipping information</h2>
           <div className="checkout-form-group">
@@ -151,12 +177,22 @@ function CheckoutForm() {
           <div className="summary-details">
             <div className="summary-total">
               <p>Total</p>
-              <p>$32.95</p>
+              <p>{new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(cartItems.reduce(
+                (acc, it) => acc + getProductById(products, it.id)!.price.value * it.amount, 0)
+              )}</p>
             </div>
-            <button type="submit" className="button button--primary button--pay">Pay</button>
+            <PendingButton
+              type="submit"
+              className="button button--primary button--pay"
+              name="process-payment"
+              value="true"
+            >Pay</PendingButton>
           </div>
         </section>
-      </form>
+      </div>
     </div>
   </main>;
 }
