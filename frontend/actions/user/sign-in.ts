@@ -3,6 +3,7 @@
 import config from "@/types/config";
 import { cookies } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
+import "server-only";
 
 export default async function signIn(currentErrors: string[], formData: FormData) {
   const email = formData.get("email")! as string;

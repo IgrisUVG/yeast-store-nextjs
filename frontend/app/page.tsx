@@ -1,8 +1,9 @@
-import { Product, ProductType } from "@/types/product";
+import { ProductType } from "@/types/product";
 import Link from "next/link";
 import CheckboxFilter from "./components/filters/checkbox/checkbox";
 import SortButton from "./components/filters/sort/sort";
 import SearchInputInstant from "./components/filters/search/search-instant";
+import getProducts from "@/actions/products/get-products";
 
 export enum SearchParam {
   PRODUCT_TYPE = "product-type[]",
@@ -35,11 +36,7 @@ const DEFAULT_SORT_DIRECTION = SortDirection.NEW;
 
 export default async function Home({ searchParams }: PageProps<"/">) {
   const searchValues = await searchParams;
-
-  const productsResponse = await fetch("http://localhost:3000/json/data.json", {
-    method: "GET",
-  });
-  const products = await productsResponse.json() as Product[];
+  const products = await getProducts();
 
   const sortDirection = searchValues[SearchParam.SORT] ?? DEFAULT_SORT_DIRECTION;
 

@@ -48,7 +48,7 @@ export default async function RootLayout({
                   <Link href="/account" className="user-icon" aria-label="My Account">
                     <img src="/img/icons/User_alt.svg" alt="User Account" />
                   </Link>
-                  <a href="cart.html" className="cart-icon" aria-label="Shopping Cart">
+                  <a href="/cart" className="cart-icon" aria-label="Shopping Cart">
                     <img src="/img/icons/Shopping_bag.svg" alt="Shopping Cart" />
                   </a>
                 </div>

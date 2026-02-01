@@ -161,11 +161,11 @@ export default function Page() {
         tabs={[
           {
             content: <OrderHistory />,
+            defaultActive: true,
             id: "order-history-tab",
             label: "Order History",
           }, {
             content: <AccountForm />,
-            defaultActive: true,
             id: "account-info-tab",
             label: "Account Information",
           }

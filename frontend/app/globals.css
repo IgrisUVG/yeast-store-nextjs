@@ -1251,6 +1251,11 @@ footer {
   padding: 0;
 }
 
+.quantity-btn-cart:disabled {
+  cursor: default;
+  opacity: 0.3;
+}
+
 .quantity-value-cart {
   font-size: 16px;
   font-weight: 500;

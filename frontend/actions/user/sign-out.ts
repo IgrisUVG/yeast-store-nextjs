@@ -3,6 +3,7 @@
 import config from "@/types/config";
 import { cookies } from "next/headers";
 import { redirect, RedirectType } from "next/navigation";
+import "server-only";
 
 export default async function signOut() {
   const cookieStore = await cookies();
