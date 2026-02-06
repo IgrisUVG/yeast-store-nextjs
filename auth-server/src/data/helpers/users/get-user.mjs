@@ -1,0 +1,1 @@
+export default (db, username) => db.data.users.find((u) => u.username === username);

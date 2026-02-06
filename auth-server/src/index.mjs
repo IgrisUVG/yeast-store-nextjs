@@ -1,8 +1,9 @@
-import { JsonDB, Config } from 'node-json-db';
 import express, { json } from "express";
 import bcrypt from "bcrypt";
 import { v6 as uuidv6 } from "uuid";
 import cors from "cors";
+import { JSONFilePreset  } from "lowdb/node";
+import getUser from "./data/helpers/users/get-user.mjs";
 
 const port = process.env.PORT ?? 5391;
 const saltRounds = 10;
@@ -11,20 +12,21 @@ const app = express();
 app.use(json());
 app.use(cors());
 
-const db = new JsonDB(new Config(process.env.DATABASE_NAME ?? "users"));
+const db = await JSONFilePreset(`${process.env.DATABASE_NAME ?? "users"}.json`, {
+  users: [],
+});
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
 app.post("/signin", async (req, res) => {
-  const userIndex = await db.getIndex("/users", req.body.username, "username");
+  const user = getUser(req.body.username);
 
-  if (userIndex === -1) {
+  if (user === undefined) {
     return res.sendStatus(404);
   }
 
-  const user = await db.getData(`/users[${userIndex}]`);
   const isPasswordCorrect = await bcrypt.compare(req.body.password, user.password);
 
   if (!isPasswordCorrect) {
@@ -35,23 +37,27 @@ app.post("/signin", async (req, res) => {
 });
 
 app.post("/signup", async (req, res) => {
-  const userIndex = await db.getIndex("/users", req.body.username, "username");
+  const user = getUser(req.body.username);
 
-  if (userIndex !== -1) {
+  if (user !== undefined) {
     return res.status(400).send("User already exists");
   }
 
   const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
 
-  await db.push("/users[]", {
+  await db.update(({ users }) => users.push({
     id: uuidv6(),
     username: req.body.username,
     password: hashedPassword,
-  });
+  }));
 
   res.sendStatus(201);
 });
 
-app.listen(port, () => {
-  console.log(`App listening on port ${port}`);
-});
+const init = async () => {
+  app.listen(port, () => {
+    console.log(`App listening on port ${port}`);
+  });
+}
+
+init();
