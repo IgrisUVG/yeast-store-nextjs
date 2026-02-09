@@ -7,6 +7,7 @@ import getUser from "./data/helpers/users/get-user.mjs";
 
 const port = process.env.PORT ?? 5391;
 const saltRounds = 10;
+const TOKEN_EXPIRATION = 1000 * 60 * 60 * 24 * 7 * 2;
 
 const app = express();
 app.use(json());
@@ -14,6 +15,7 @@ app.use(cors());
 
 const db = await JSONFilePreset(`${process.env.DATABASE_NAME ?? "users"}.json`, {
   users: [],
+  sessions: [],
 });
 
 app.get("/", (req, res) => {
@@ -33,14 +35,28 @@ app.post("/signin", async (req, res) => {
     return res.sendStatus(401);
   }
 
-  res.sendStatus(200);
+  const newSession = {
+    id: uuidv6(),
+    token: `${Math.random()}`,
+    expirationDate: Date.now() + TOKEN_EXPIRATION,
+    status: "active",
+    userId: user.id,
+  };
+
+  await db.update(({ sessions }) => sessions.push(newSession));
+
+  const { token, expirationDate } = newSession;
+
+  res.status(200).send({
+    token, expirationDate,
+  });
 });
 
 app.post("/signup", async (req, res) => {
   const user = getUser(db, req.body.username);
 
   if (user !== undefined) {
-    return res.status(400).send("User already exists");
+    return res.redirect(307, "/signin");
   }
 
   const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);

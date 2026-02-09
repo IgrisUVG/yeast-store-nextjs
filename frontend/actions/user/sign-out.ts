@@ -8,5 +8,6 @@ import "server-only";
 export default async function signOut() {
   const cookieStore = await cookies();
   cookieStore.delete(config.AUTH_COOKIE_NAME);
+  cookieStore.delete(config.AUTH_COOKIE_EXPIRATION_NAME);
   redirect("/", RedirectType.replace);
 }
