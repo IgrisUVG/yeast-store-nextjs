@@ -4,6 +4,8 @@ import { v6 as uuidv6 } from "uuid";
 import cors from "cors";
 import { JSONFilePreset  } from "lowdb/node";
 import getUser from "./data/helpers/users/get-user.mjs";
+import getSession from "./request/helpers/get-session.mjs";
+import sessionIsActive from "./request/helpers/session-is-active.mjs";
 
 const port = process.env.PORT ?? 5391;
 const saltRounds = 10;
@@ -16,6 +18,7 @@ app.use(cors());
 const db = await JSONFilePreset(`${process.env.DATABASE_NAME ?? "users"}.json`, {
   users: [],
   sessions: [],
+  cart: [],
 });
 
 app.get("/", (req, res) => {
@@ -68,6 +71,28 @@ app.post("/signup", async (req, res) => {
   }));
 
   res.sendStatus(201);
+});
+
+app.post("/validate-session", async (req, res) => {
+  const session = getSession(req, db);
+  const currentSessionIsActive = sessionIsActive(session);
+  return res.sendStatus(currentSessionIsActive ? 200 : 401);
+});
+
+app.post("/add-to-cart", async (req, res) => {
+  const session = getSession(req, db);
+  const currentSessionIsActive = sessionIsActive(session);
+
+  if (!currentSessionIsActive) {
+    return res.sendStatus(403);
+  }
+
+  await db.update(({ cart }) => cart.push({
+    productID: req.body.productID,
+    userID: session.userId,
+  }));
+
+  res.sendStatus(200);
 });
 
 const init = async () => {

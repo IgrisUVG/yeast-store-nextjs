@@ -1,7 +1,9 @@
 import { Product } from "@/types/product";
 import { redirect, RedirectType } from "next/navigation";
 import Accordion from "./components/accordion/accordion";
-import isSignedIn from "@/actions/user/is-signed-in";
+
+import { cookies } from "next/headers";
+import config from "@/types/config";
 
 async function addToCart(formData: FormData) {
   "use server";
@@ -12,15 +14,21 @@ async function addToCart(formData: FormData) {
     return;
   }
 
-  const isUserSignedIn = await isSignedIn();
+  const cookieStore = await cookies();
+  const token = cookieStore.get(config.AUTH_COOKIE_NAME)?.value ?? "";
 
-  if (!isUserSignedIn) {
-    // TODO: Add product to cart after user is logged in
-    // Main idea how to do it: add secret GET-parameter
-    redirect(`/signin?returnTo=/products/${productID}`, RedirectType.replace);
-  }
+  const response = await fetch(`${process.env.AUTH_URL}/add-to-cart`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      productID,
+    }),
+  });
 
-  console.log("ADDED");
+  console.log(response.status);
 }
 
 export default async function Page({ params }: PageProps<"/products/[id]">) {

@@ -16,5 +16,12 @@ export default async function isSignedIn() {
     return false;
   }
 
-  return true;
+  const response = await fetch(`${process.env.AUTH_URL}/validate-session`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${token.value}`,
+    },
+  });
+
+  return response.status === 200;
 }
