@@ -40,7 +40,7 @@ app.post("/signup", async (req, res) => {
   const user = getUser(db, req.body.username);
 
   if (user !== undefined) {
-    return res.status(400).send("User already exists");
+    return res.redirect(307, "/signin");
   }
 
   const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
