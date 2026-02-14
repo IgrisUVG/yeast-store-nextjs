@@ -32,21 +32,6 @@ export default async function signIn(currentErrors: string[], formData: FormData
     return ["Authorization error. Please try again later or contact support"];
   }
 
-  // 1. User has to be deleted
-  // 2. User wants to interrupt his own session
-
-  // Sessions
-  // - MAC OS: Saint Petersburg 8.02.2026 [x]
-  // - iPhone: Saint Petersburg 3.02.2026 [x]
-
-  // Token:
-  // - [ ] Unique
-  // - [x] Server Generated
-  // - [~] Server Comfirmed (Periodically)
-  // - [~] Expirable
-
-  // - [ ] Refresh Token
-
   const responseData = await loginResponse.json() as {
     token: string,
     expirationDate: number,
